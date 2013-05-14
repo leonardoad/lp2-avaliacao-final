@@ -31,6 +31,7 @@ CREATE TABLE produto
   descricao text,
   preco numeric(15,2),
   datacadastro timestamp without time zone,
+  qtd smallint,
   CONSTRAINT produto_pkey PRIMARY KEY (id_produto)
 )
  
@@ -43,6 +44,7 @@ CREATE TABLE produtocarrinho
   id_produtocarrinho serial NOT NULL,
   id_carrinho integer,
   id_produto integer,
+  qtd smallint,
   CONSTRAINT produtocarrinho_pkey PRIMARY KEY (id_produtocarrinho),
   CONSTRAINT produtocarrinho_id_carrinho_fkey FOREIGN KEY (id_carrinho)
       REFERENCES carrinho (id_carrinho) MATCH SIMPLE
