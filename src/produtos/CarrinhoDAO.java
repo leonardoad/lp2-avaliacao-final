@@ -7,7 +7,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -104,50 +107,36 @@ public class CarrinhoDAO {
 		return carrinho;
 	}
 	
-	/**
-	 * Retorna um objeto com a lista de Produtos do carrinho com o <code>id</code> 
-	 * e com a senha <code>senha</code>.
-	 *
-	 * @param id_carrinho
-	 *            o id do carrinho, não pode ser null.
-	 *
-	 * @return null caso o id do carrinho não exista, caso contrário, retorna
-	 *         um objeto Carrinho com a lista de itens do carrinho
-	 *
-	 */
-	public List<Carrinho> selectCarrinho(Integer id_carrinho) {
-		if (id_carrinho == null) {
-			throw new IllegalArgumentException(
-					"O cod do Carrinho não pode ser null.");
-		}
-
+	 
+	public Carrinho criaCarrinho() {
+		 
 		Carrinho c = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		Connection con = null;
-		List<Carrinho> carrinho = new ArrayList<Carrinho>();
+//		List<Carrinho> carrinho = new ArrayList<Carrinho>();
+		Carrinho car = new Carrinho();
 		try {
 			con = DriverManager.getConnection(
 					"jdbc:postgresql://localhost:5432/produtos_lp2_leo", "postgres",
 					"senacrs");
 
-			stmt = con.prepareStatement(selectCarrinho);
-			stmt.setInt(1, id_carrinho);
-			rs = stmt.executeQuery();
-			if (rs.next()) {
-				c = new Carrinho();
-				c.setIdProduto(rs.getInt("id_produto"));
-				c.setQtdNoCarrinho(rs.getInt("qtd_no_carrinho"));
-				c.setIdProdutoCarrinho(rs.getInt("id_produtocarrinho"));
-				c.setQtdProdutos(rs.getInt("qtd_produtos"));
-				c.setIdCarrinho(rs.getInt("id_carrinho"));
-				c.setTitulo(rs.getString("titulo"));
-				c.setDescricao(rs.getString("descricao"));
-				c.setPreco(rs.getDouble("preco"));
-				c.setDataCadastroCarrinho(rs.getString("datacadastrocarrinho"));
+			stmt = con.prepareStatement(criaCarrinho, Statement.RETURN_GENERATED_KEYS);
+			java.sql.Timestamp data = new java.sql.Timestamp(System.currentTimeMillis());
+			stmt.setTimestamp(1, data);
+			int affectedRows = stmt.executeUpdate();
+			 
+	        if (affectedRows == 0) {
+	            throw new SQLException("Creating user failed, no rows affected.");
+	        }
 
-				carrinho.add(c);
-			}
+	        rs = stmt.getGeneratedKeys();
+	        if (rs.next()) { 
+	            car.setId(rs.getLong(1));
+	        } else {
+	            throw new SQLException("Creating user failed, no generated key obtained.");
+	        }
+			 
 		} catch (Exception e) {
 			e.printStackTrace();
 			// FIXME: comunicar erro ao programa cliente
@@ -167,13 +156,16 @@ public class CarrinhoDAO {
 				// FIXME: comunicar erro ao programa cliente
 			}
 		}
-		return carrinho;
+		
+		return car;
+		 
 	}
 
 
 	public static void main(String[] args) {
 		CarrinhoDAO car = new CarrinhoDAO();
-	System.out.println(car.selectCarrinho(1));
+		Carrinho carro = car.criaCarrinho();
+		System.out.println(car.selectCarrinho(carro.getID()));
 //		List<Carrinho> c = car.selectCarrinho("1");
 //		if (c == null) {
 //			System.out.println("Conta não encontrada!");
