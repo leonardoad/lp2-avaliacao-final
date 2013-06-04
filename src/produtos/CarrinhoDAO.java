@@ -127,14 +127,14 @@ public class CarrinhoDAO {
 			int affectedRows = stmt.executeUpdate();
 			 
 	        if (affectedRows == 0) {
-	            throw new SQLException("Creating user failed, no rows affected.");
+	            throw new SQLException("Erro ao criar o Carrinho, sem linhas afetadas.");
 	        }
 
 	        rs = stmt.getGeneratedKeys();
 	        if (rs.next()) { 
-	            car.setId(rs.getLong(1));
+	            car.setIdCarrinho(rs.getInt(1));
 	        } else {
-	            throw new SQLException("Creating user failed, no generated key obtained.");
+	            throw new SQLException("Erro ao criar o Carrinho, sem linhas afetadas.");
 	        }
 			 
 		} catch (Exception e) {
@@ -162,10 +162,61 @@ public class CarrinhoDAO {
 	}
 
 
+	public void addProdutoCarrinho(int idCarrinho, int idProduto, int quantidade) {
+		 
+		Carrinho c = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		Connection con = null;
+		try {
+			con = DriverManager.getConnection(
+					"jdbc:postgresql://localhost:5432/produtos_lp2_leo", "postgres",
+					"senacrs");
+
+			stmt = con.prepareStatement(insertProdutoCarrinho );
+			java.sql.Timestamp data = new java.sql.Timestamp(System.currentTimeMillis());
+			stmt.setInt(1, idCarrinho);
+			stmt.setInt(2, idProduto);
+			stmt.setInt(3, quantidade);
+			int affectedRows = stmt.executeUpdate();
+			 
+	        if (affectedRows == 0) {
+	            throw new SQLException("Erro ao adicionar carrinho, sem linhas afetadas.");
+	        }
+
+	         
+			 
+		} catch (Exception e) {
+			e.printStackTrace();
+			// FIXME: comunicar erro ao programa cliente
+		} finally {
+			try {
+				if (stmt != null) {
+					stmt.close();
+				}
+				if (rs != null) {
+					stmt.close();
+				}
+				if (con != null) {
+					stmt.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+				// FIXME: comunicar erro ao programa cliente
+			}
+		}
+		
+		 
+	}
+
 	public static void main(String[] args) {
-		CarrinhoDAO car = new CarrinhoDAO();
-		Carrinho carro = car.criaCarrinho();
-		System.out.println(car.selectCarrinho(carro.getID()));
+		CarrinhoDAO carDAO = new CarrinhoDAO();
+		Carrinho carro = carDAO.criaCarrinho();
+		System.out.println(carDAO.selectCarrinho(carro.getIdCarrinho()));
+		
+		carDAO.addProdutoCarrinho(carro.getIdCarrinho(), 2, 60);
+		
+		
 //		List<Carrinho> c = car.selectCarrinho("1");
 //		if (c == null) {
 //			System.out.println("Conta não encontrada!");
