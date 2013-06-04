@@ -2,6 +2,9 @@ package produtos;
 
 import java.util.ArrayList;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,29 +16,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import java.util.Properties;
+
 
 public class CarrinhoDAO {
 
 	private static final String selectProdutos = "select * from produto where descricao ilike '%?%' or titulo ilike '%?%';";
-	private static final String selectCarrinho =
-		"SELECT "+
- " produto.id_produto, "+
- " produto.titulo, "+
- " produto.descricao, "+
- " produto.preco, "+
- " produtocarrinho.qtd AS qtd_no_carrinho, "+
- " produtocarrinho.id_produtocarrinho, "+
- " produto.qtd AS qtd_produtos, "+
- " carrinho.id_carrinho, "+
- " carrinho.datacadastro AS datacadastrocarrinho "+
-" FROM "+
- " public.carrinho, "+
- " public.produto, "+
- " public.produtocarrinho "+
-" WHERE "+
-"  carrinho.id_carrinho = produtocarrinho.id_carrinho AND "+
-"  produto.id_produto = produtocarrinho.id_produto and  " +
-"  carrinho.id_carrinho = ? ";
+	private static final String selectCarrinho ="SELECT * from  CarrinhoView   WHERE   carrinho.id_carrinho = ? ";
 
 
 	private static final String criaCarrinho = "INSERT INTO carrinho(datacadastro) VALUES (  ?);";
@@ -64,9 +51,7 @@ public class CarrinhoDAO {
 		Connection con = null;
 		List<Carrinho> carrinho = new ArrayList<Carrinho>();
 		try {
-			con = DriverManager.getConnection(
-					"jdbc:postgresql://localhost:5432/produtos_lp2_leo", "postgres",
-					"senacrs");
+			con = connect();
 
 			stmt = con.prepareStatement(selectCarrinho);
 			stmt.setInt(1, id_carrinho);
@@ -106,6 +91,17 @@ public class CarrinhoDAO {
 		}
 		return carrinho;
 	}
+
+
+	private Connection connect() throws IOException, FileNotFoundException,SQLException {
+		Connection con;
+		Properties p = new Properties();
+		p.load(new FileInputStream("src/conf/CarrinhoDAO.properties"));
+		String url = p.getProperty("url");
+ 
+		con = DriverManager.getConnection(url,p);
+		return con;
+	}
 	
 	 
 	public Carrinho criaCarrinho() {
@@ -117,9 +113,8 @@ public class CarrinhoDAO {
 //		List<Carrinho> carrinho = new ArrayList<Carrinho>();
 		Carrinho car = new Carrinho();
 		try {
-			con = DriverManager.getConnection(
-					"jdbc:postgresql://localhost:5432/produtos_lp2_leo", "postgres",
-					"senacrs");
+
+			con = connect();
 
 			stmt = con.prepareStatement(criaCarrinho, Statement.RETURN_GENERATED_KEYS);
 			java.sql.Timestamp data = new java.sql.Timestamp(System.currentTimeMillis());
@@ -169,9 +164,8 @@ public class CarrinhoDAO {
 		ResultSet rs = null;
 		Connection con = null;
 		try {
-			con = DriverManager.getConnection(
-					"jdbc:postgresql://localhost:5432/produtos_lp2_leo", "postgres",
-					"senacrs");
+
+			con = connect();
 
 			stmt = con.prepareStatement(insertProdutoCarrinho );
 			java.sql.Timestamp data = new java.sql.Timestamp(System.currentTimeMillis());
