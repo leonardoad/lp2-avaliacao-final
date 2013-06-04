@@ -22,7 +22,7 @@ import java.util.Properties;
 public class CarrinhoDAO {
 
 	private static final String selectProdutos = "select * from produto where descricao ilike '%?%' or titulo ilike '%?%';";
-	private static final String selectCarrinho ="SELECT * from  CarrinhoView   WHERE   carrinho.id_carrinho = ? ";
+	private static final String selectCarrinho ="SELECT * from  CarrinhoView   WHERE   id_carrinho = ? ";
 
 
 	private static final String criaCarrinho = "INSERT INTO carrinho(datacadastro) VALUES (  ?);";
@@ -206,7 +206,7 @@ public class CarrinhoDAO {
 	public static void main(String[] args) {
 		CarrinhoDAO carDAO = new CarrinhoDAO();
 		Carrinho carro = carDAO.criaCarrinho();
-		System.out.println(carDAO.selectCarrinho(carro.getIdCarrinho()));
+		System.out.println(carDAO.selectCarrinho(carro.getIdCarrinho()).toString());
 		
 		carDAO.addProdutoCarrinho(carro.getIdCarrinho(), 2, 60);
 		
