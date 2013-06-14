@@ -14,6 +14,49 @@ import javax.swing.table.AbstractTableModel;
 //import swing.action.JDepositarPanelAction;
 //import swing.action.JDepositarPanelCloseAction;
 final class MyTableModel extends AbstractTableModel {
+	
+	/*
+	
+	/**
+     * Creates new form Resultados
+     */
+    public Resultados(ResultSet resultSet) throws SQLException {
+        initComponents();
+        ResultSetMetaData metaDados = resultSet.getMetaData();
+        Object[][] dados;
+        Object[] nomeColunas;
+        int numeroColunas = metaDados.getColumnCount();
+        int numeroLinhas = 0;
+        do {
+            numeroLinhas++;
+        } while (resultSet.next());
+        resultSet.first();
+        nomeColunas = new String[numeroColunas];
+        for (int i = 1; i <= numeroColunas; i++) {
+            nomeColunas[i-1]=metaDados.getColumnName(i);
+        }
+        resultSet.beforeFirst();
+        dados = new Object[numeroLinhas][numeroColunas];
+        for (int row = 0; row < numeroLinhas; row++) {
+            resultSet.next();
+            for (int col = 0; col < numeroColunas; col++) {
+                dados[row][col] = resultSet.getObject(col+1);
+            }
+        }
+        resultSet.first();
+        /*do {
+            int row = 0;
+            for (int col = 1; col <= numeroColunas; col++) {
+                dados[col-1][row] = resultSet.getObject(col);
+            }
+            row++;
+        } while (resultSet.next());*/
+        jTable1.setModel(new DefaultTableModel(dados, nomeColunas));
+        setVisible(true);
+    }
+	
+	*/
+	
     private String[] columnNames =  {"First Name",
             "Last Name",
             "Sport",
