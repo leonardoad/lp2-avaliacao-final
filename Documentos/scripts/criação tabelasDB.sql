@@ -1,16 +1,3 @@
-
--- DROP DATABASE produtos_lp2_leo;
-
-CREATE DATABASE produtos_lp2_leo
-  WITH OWNER = postgres
-       ENCODING = 'UTF8'
-       TABLESPACE = pg_default
-       LC_COLLATE = 'Portuguese_Brazil.1252'
-       LC_CTYPE = 'Portuguese_Brazil.1252'
-       CONNECTION LIMIT = -1;
-
--- Table: carrinho
-
 -- DROP TABLE carrinho;
 
 CREATE TABLE carrinho
@@ -19,8 +6,6 @@ CREATE TABLE carrinho
   datacadastro timestamp without time zone,
   CONSTRAINT carrinho_pkey PRIMARY KEY (id_carrinho)
 )
- 
--- Table: produto
 
 -- DROP TABLE produto;
 
@@ -34,8 +19,6 @@ CREATE TABLE produto
   qtd smallint,
   CONSTRAINT produto_pkey PRIMARY KEY (id_produto)
 )
- 
-  -- Table: produtocarrinho
 
 -- DROP TABLE produtocarrinho;
 
@@ -53,4 +36,3 @@ CREATE TABLE produtocarrinho
       REFERENCES produto (id_produto) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 )
- 

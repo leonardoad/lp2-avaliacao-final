@@ -19,20 +19,11 @@ INSERT INTO produtocarrinho(
 
 
 -- consulta para carrinho de compras.
-SELECT 
-  produto.id_produto, 
-  produto.titulo, 
-  produto.descricao, 
-  produto.preco, 
-  produtocarrinho.qtd AS qtd_no_carrinho, 
-  produtocarrinho.id_produtocarrinho, 
-  produto.qtd AS qtd_produtos, 
-  carrinho.id_carrinho, 
-  carrinho.datacadastro AS datacadastrocarrinho
-FROM 
-  public.carrinho, 
-  public.produto, 
-  public.produtocarrinho
-WHERE 
-  carrinho.id_carrinho = produtocarrinho.id_carrinho AND
-  produto.id_produto = produtocarrinho.id_produto;
+
+CREATE OR REPLACE VIEW carrinhoview AS 
+ SELECT produto.id_produto, produto.titulo, produto.descricao, produto.preco, 
+    produtocarrinho.qtd AS qtd_no_carrinho, produtocarrinho.id_produtocarrinho, 
+    produto.qtd AS qtd_produtos, carrinho.id_carrinho, 
+    carrinho.datacadastro AS datacadastrocarrinho
+   FROM carrinho, produto, produtocarrinho
+  WHERE carrinho.id_carrinho = produtocarrinho.id_carrinho AND produto.id_produto = produtocarrinho.id_produto;
