@@ -5,11 +5,9 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import produtos.CarrinhoDAO;
-import swing.JProdutosPanel;
 import swing.MyTableModel;
 
 @SuppressWarnings("serial")

@@ -1,7 +1,6 @@
 package swing;
 
 import java.awt.CardLayout;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -10,9 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.table.AbstractTableModel;
 
-import produtos.Carrinho;
 import produtos.CarrinhoDAO;
 import swing.action.JAdicionarPanelAction;
 import swing.action.JAdicionarPanelCloseAction;
