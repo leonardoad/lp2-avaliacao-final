@@ -23,6 +23,7 @@ public class CarrinhoDAO {
 
 	private static final String selectProdutos = "select * from produto where descricao ilike '%?%' or titulo ilike '%?%';";
 	private static final String selectCarrinho ="SELECT * from  CarrinhoView   WHERE   id_carrinho = ? ";
+	private static final String selectTotalCarrinho ="SELECT sum(preco*qtd_no_carrinho) from  CarrinhoView   WHERE   id_carrinho = ? ";
 
 
 	private static final String criaCarrinho = "INSERT INTO carrinho(datacadastro) VALUES (  ?);";
@@ -56,7 +57,7 @@ public class CarrinhoDAO {
 			stmt = con.prepareStatement(selectCarrinho);
 			stmt.setInt(1, id_carrinho);
 			rs = stmt.executeQuery();
-			if (rs.next()) {
+			while (rs.next()) {
 				c = new Carrinho();
 				c.setIdProduto(rs.getInt("id_produto"));
 				c.setQtdNoCarrinho(rs.getInt("qtd_no_carrinho"));
@@ -90,6 +91,43 @@ public class CarrinhoDAO {
 		return carrinho;
 	}
 
+	public Double getTotalCarrinho(Integer id_carrinho) {
+		if (id_carrinho == null) {
+			throw new IllegalArgumentException(
+					"O cod do Carrinho não pode ser null.");
+		}
+ 
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		Connection con = null; 
+		try {
+			con = connect();
+
+			stmt = con.prepareStatement(selectTotalCarrinho);
+			stmt.setInt(1, id_carrinho);
+			rs = stmt.executeQuery();
+			if (rs.next()) {
+				 return rs.getDouble(1);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("Erro ao buscar Carrinho"); 
+		} finally {
+			try {
+				if (stmt != null) {
+					stmt.close();
+				}
+				if (rs != null) {
+					stmt.close();
+				}
+				if (con != null) {
+					stmt.close();
+				}
+			} catch (SQLException e) {
+				throw new RuntimeException("Erro ao fechar Conexão.");
+			}
+		}
+		return 0.00;
+	}
 
 	private Connection connect() throws IOException, FileNotFoundException,SQLException {
 		Connection con;
@@ -200,9 +238,12 @@ public class CarrinhoDAO {
 	public static void main(String[] args) {
 		CarrinhoDAO carDAO = new CarrinhoDAO();
 		Carrinho carro = carDAO.criaCarrinho();
-		System.out.println(carDAO.selectCarrinho(carro.getIdCarrinho()).toString());
 		
+
 		carDAO.addProdutoCarrinho(carro.getIdCarrinho(), 2, 60);
+		carDAO.addProdutoCarrinho(carro.getIdCarrinho(), 3, 60);
+
+		System.out.println(carDAO.selectCarrinho(carro.getIdCarrinho()).toString());
 		
 		
 //		List<Carrinho> c = car.selectCarrinho("1");
