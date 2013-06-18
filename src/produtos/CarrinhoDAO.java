@@ -66,7 +66,7 @@ public class CarrinhoDAO {
 				c.setTitulo(rs.getString("titulo"));
 				c.setDescricao(rs.getString("descricao"));
 				c.setPreco(rs.getDouble("preco"));
-				c.setDataCadastroCarrinho(rs.getString("datacadastrocarrinho"));
+				c.setDataCadastroCarrinho(rs.getDate("datacadastrocarrinho"));
 
 				carrinho.add(c);
 			}

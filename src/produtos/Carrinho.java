@@ -1,5 +1,7 @@
 package produtos;
 
+import java.util.Date;
+
 public class Carrinho {
 
 	private int idProduto;
@@ -10,7 +12,7 @@ public class Carrinho {
 	private int idProdutoCarrinho;
 	private int qtdProdutos;
 	private int idCarrinho;
-	private String dataCadastroCarrinho;
+	private Date dataCadastroCarrinho;
 
 
 
@@ -116,13 +118,13 @@ public class Carrinho {
 
 
 
-	public String getDataCadastroCarrinho() {
+	public Date getDataCadastroCarrinho() {
 		return dataCadastroCarrinho;
 	}
 
 
 
-	public void setDataCadastroCarrinho(String dataCadastroCarrinho) {
+	public void setDataCadastroCarrinho(Date dataCadastroCarrinho) {
 		this.dataCadastroCarrinho = dataCadastroCarrinho;
 	}
 
