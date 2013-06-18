@@ -71,8 +71,7 @@ public class CarrinhoDAO {
 				carrinho.add(c);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			// FIXME: comunicar erro ao programa cliente
+			throw new RuntimeException("Erro ao buscar Carrinho"); 
 		} finally {
 			try {
 				if (stmt != null) {
@@ -85,8 +84,7 @@ public class CarrinhoDAO {
 					stmt.close();
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
-				// FIXME: comunicar erro ao programa cliente
+				throw new RuntimeException("Erro ao fechar Conexão.");
 			}
 		}
 		return carrinho;
@@ -106,7 +104,7 @@ public class CarrinhoDAO {
 	 
 	public Carrinho criaCarrinho() {
 		 
-		Carrinho c = null;
+//		Carrinho c = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		Connection con = null;
@@ -133,8 +131,7 @@ public class CarrinhoDAO {
 	        }
 			 
 		} catch (Exception e) {
-			e.printStackTrace();
-			// FIXME: comunicar erro ao programa cliente
+			throw new RuntimeException("Erro ao criar Carrinho");
 		} finally {
 			try {
 				if (stmt != null) {
@@ -147,8 +144,7 @@ public class CarrinhoDAO {
 					stmt.close();
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
-				// FIXME: comunicar erro ao programa cliente
+				throw new RuntimeException("Erro ao fechar Carrinho");
 			}
 		}
 		
@@ -159,7 +155,7 @@ public class CarrinhoDAO {
 
 	public void addProdutoCarrinho(int idCarrinho, int idProduto, int quantidade) {
 		 
-		Carrinho c = null;
+//		Carrinho c = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		Connection con = null;
@@ -168,7 +164,7 @@ public class CarrinhoDAO {
 			con = connect();
 
 			stmt = con.prepareStatement(insertProdutoCarrinho );
-			java.sql.Timestamp data = new java.sql.Timestamp(System.currentTimeMillis());
+//			java.sql.Timestamp data = new java.sql.Timestamp(System.currentTimeMillis());
 			stmt.setInt(1, idCarrinho);
 			stmt.setInt(2, idProduto);
 			stmt.setInt(3, quantidade);
@@ -181,8 +177,7 @@ public class CarrinhoDAO {
 	         
 			 
 		} catch (Exception e) {
-			e.printStackTrace();
-			// FIXME: comunicar erro ao programa cliente
+			throw new RuntimeException("Erro ao inserir produto no Carrinho");
 		} finally {
 			try {
 				if (stmt != null) {
@@ -195,8 +190,7 @@ public class CarrinhoDAO {
 					stmt.close();
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
-				// FIXME: comunicar erro ao programa cliente
+				throw new RuntimeException("Erro ao fechar Carrinho");
 			}
 		}
 		
