@@ -72,7 +72,7 @@ public class CarrinhoDAO {
 				carrinho.add(c);
 			}
 		} catch (Exception e) {
-			throw new RuntimeException("Erro ao buscar Carrinho"); 
+			throw new RuntimeException("Erro ao buscar Carrinho1"); 
 		} finally {
 			try {
 				if (stmt != null) {
@@ -110,7 +110,7 @@ public class CarrinhoDAO {
 				 return rs.getDouble(1);
 			}
 		} catch (Exception e) {
-			throw new RuntimeException("Erro ao buscar Carrinho"); 
+			throw new RuntimeException("Erro ao buscar Carrinho2"); 
 		} finally {
 			try {
 				if (stmt != null) {
@@ -182,7 +182,7 @@ public class CarrinhoDAO {
 					stmt.close();
 				}
 			} catch (SQLException e) {
-				throw new RuntimeException("Erro ao fechar Carrinho");
+				throw new RuntimeException("Erro ao fechar Carrinho1");
 			}
 		}
 		
@@ -228,7 +228,7 @@ public class CarrinhoDAO {
 					stmt.close();
 				}
 			} catch (SQLException e) {
-				throw new RuntimeException("Erro ao fechar Carrinho");
+				throw new RuntimeException("Erro ao fechar Carrinho2");
 			}
 		}
 		
@@ -241,7 +241,7 @@ public class CarrinhoDAO {
 		
 
 		carDAO.addProdutoCarrinho(carro.getIdCarrinho(), 2, 60);
-		carDAO.addProdutoCarrinho(carro.getIdCarrinho(), 3, 60);
+		carDAO.addProdutoCarrinho(carro.getIdCarrinho(), 3, 55);
 
 		System.out.println(carDAO.selectCarrinho(carro.getIdCarrinho()).toString());
 		

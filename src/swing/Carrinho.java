@@ -14,12 +14,13 @@ import javax.swing.JPanel;
 import swing.action.JAboutMenuAction;
 import swing.action.JProdutosMenuAction;
 import swing.action.JSairMenuAction;
-
+import java.awt.Image;
+import java.awt.Toolkit;
 public class Carrinho {
 	public static final String PRINCIPAL = "PRINCIPAL";
 
 	private static void createAndShowGUI() {
-		JFrame frame = new JFrame("Banco Pindorama - Caixa Eletrônico");
+		JFrame frame = new JFrame("Momoca");
 		frame.setBounds(0, 0, 300, 600);
 		CardLayout cards = new CardLayout();
 		//http://docs.oracle.com/javase/tutorial/uiswing/layout/card.html
@@ -34,15 +35,15 @@ public class Carrinho {
 		principal.add(vazio, PRINCIPAL);
 		principal.add(depositar, JProdutosMenuAction.DEPOSITAR1); 
 		
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setIconImage(new ImageIcon("icon.jpg").getImage());
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+		frame.setIconImage(new ImageIcon("img/icon.png").getImage());
 		
 		frame.getContentPane().add(principal);
 
 		JMenuBar menubar = new JMenuBar();
 		JMenu file = new JMenu("Arquivo");
 		menubar.add(file);
-		JMenu terminal = new JMenu("Terminal");
+		JMenu terminal = new JMenu("Ações");
 		menubar.add(terminal);
 		JMenu help = new JMenu("Ajuda");
 		menubar.add(help);
